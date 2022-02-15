@@ -1,0 +1,40 @@
+package conexao_jdbc;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+public class SingleConnection {
+	
+	private static String url = "";
+	private static String password = "";
+	private static String user = "";
+	private static Connection connection = null;
+	
+	//chama de qualquer lugar
+	static {
+		conectar();
+	}
+	
+	public SingleConnection() {//construtor
+		conectar();
+	}
+	
+	private static void conectar() {
+		try {
+			
+			if(connection == null) {
+				Class.forName("org.postgressql.Driver");
+				connection = DriverManager.getConnection(url, user, password);
+				connection.setAutoCommit(false);
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static Connection getConnection() {
+		return connection;
+	}
+
+}
